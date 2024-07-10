@@ -1,7 +1,5 @@
 package telran.util;
 
-import java.lang.reflect.Array;
-
 public class Arrays {
 
     public static int search(int [] ar, int key){
@@ -29,13 +27,9 @@ public class Arrays {
     */
     public static int[] insert(int[] ar, int index, int number) {
             int[] res = new int[ar.length+1];
-            for (int i = 0; i < index; i++) {
-                res[i]=ar[i];
-            }
+            System.arraycopy(ar, 0, res, 0, index);
             res[index]=number;
-            for (int i = index+1; i <= ar.length; i++) {
-                res[i]=ar[i-1];
-            }
+            System.arraycopy(ar, index, res, index+1, ar.length-index);
         return res; 
     }
 
@@ -47,12 +41,8 @@ public class Arrays {
      */
     public static int[] remove(int[] numbers, int index) {
         int[] res = new int[numbers.length-1];
-        for (int i = 0; i < index; i++) {
-            res[i]=numbers[i];
-        }
-        for (int i = index+1; i < numbers.length; i++) {
-            res[i-1]=numbers[i];
-        }
+        System.arraycopy(numbers, 0, res, 0, index);
+        System.arraycopy(numbers, index+1, res, index, numbers.length-index-1);
     return res;
 
     }
