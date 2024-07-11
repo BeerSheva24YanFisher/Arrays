@@ -1,18 +1,24 @@
 package telran.array;
 
+import java.util.Arrays;
+import java.util.Random;
+
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import static telran.util.Arrays.add;
 import static telran.util.Arrays.insert;
 import static telran.util.Arrays.remove;
 import static telran.util.Arrays.search;
+import static telran.util.Arrays.sort;
 
 
 
 public class ArraysTest {
+    private static final int N_ELEMENTS = 1_000;
     int[] numbers = {10, 7, 12, -4, 13, 3, 14};
     @Test
     void searchTest(){
@@ -54,6 +60,34 @@ public class ArraysTest {
     assertArrayEquals(expected_last, remove(numbers, numbers.length-1));
     assertThrowsExactly(ArrayIndexOutOfBoundsException.class, ()->remove(numbers, numbers.length));
     assertThrowsExactly(ArrayIndexOutOfBoundsException.class, ()->remove(numbers, -1));
+    }
+
+
+    @Test
+    void sortTest() {
+        int [] testNumber = Arrays.copyOf(numbers, numbers.length);
+        int[] expected = {-4, 3, 7, 10,  12,  13, 14};
+        sort(testNumber);
+        assertArrayEquals(expected, testNumber);
+    }
+
+    @Test
+    void sortTestRandomArray(){
+        int[] array = getRandomArray(N_ELEMENTS);
+        int limit = array.length -1;
+        sort(array);
+        for (int i = 0; i < limit; i++) {
+            assertTrue(array[i]<=array[i+1]);
+        }
+    }
+
+    private int[] getRandomArray(int nElements) {
+        int[] res = new int[nElements];
+        Random random = new Random();
+        for (int i = 0; i < nElements; i++) {
+            res[i] = random.nextInt();
+        }
+        return res;
     }
 
 }
