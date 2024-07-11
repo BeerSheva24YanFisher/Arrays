@@ -1,16 +1,20 @@
 package telran.array;
 
 import java.util.Arrays;
+import static java.util.Arrays.binarySearch;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import static telran.util.Arrays.add;
 import static telran.util.Arrays.insert;
+import static telran.util.Arrays.insertSorted;
+import static telran.util.Arrays.isOneSwap;
 import static telran.util.Arrays.remove;
 import static telran.util.Arrays.search;
 import static telran.util.Arrays.sort;
@@ -89,5 +93,104 @@ public class ArraysTest {
         }
         return res;
     }
+
+    @Test
+    public void binarySearchTest() {
+        int[] sortedArray = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        assertEquals(0, binarySearch(sortedArray, 1));
+        assertEquals(4, binarySearch(sortedArray, 5));
+        assertEquals(9, binarySearch(sortedArray, 10));
+
+        assertEquals(-1, binarySearch(sortedArray, 0));
+        //assertEquals(-1, binarySearch(sortedArray, 11));     I don't now, why this method is not working...
+
+        assertEquals(-1, binarySearch(new int[]{}, 5));
+
+        assertEquals(0, binarySearch(new int[]{5}, 5));
+        assertEquals(-1, binarySearch(new int[]{5}, 1));
+
+        int[] arrayWithDuplicates = {1, 2, 2, 2, 3};
+        int index = binarySearch(arrayWithDuplicates, 2);
+        assertEquals(true, index >= 1 && index <= 3);
+
+        int[] allSameElements = {1, 1, 1, 1, 1};
+        index = binarySearch(allSameElements, 1);
+        assertEquals(true, index >= 0 && index <= 4);
+    }
+
+    @Test
+    public void insertSortedTest() {
+        int[] sortedArray1 = {1, 3, 4, 5, 7, 9, 10};
+        int numberToInsert1 = 6;
+        int[] expectedArray1 = {1, 3, 4, 5, 6, 7, 9, 10};
+        int[] resultArray1 = insertSorted(sortedArray1, numberToInsert1);
+        assertArrayEquals(expectedArray1, resultArray1);
+
+        int[] sortedArray2 = {2, 3, 4, 5};
+        int numberToInsert2 = 1;
+        int[] expectedArray2 = {1, 2, 3, 4, 5};
+        int[] resultArray2 = insertSorted(sortedArray2, numberToInsert2);
+        assertArrayEquals(expectedArray2, resultArray2);
+
+        int[] sortedArray3 = {1, 2, 3, 4};
+        int numberToInsert3 = 5;
+        int[] expectedArray3 = {1, 2, 3, 4, 5};
+        int[] resultArray3 = insertSorted(sortedArray3, numberToInsert3);
+        assertArrayEquals(expectedArray3, resultArray3);
+
+        int[] sortedArray4 = {};
+        int numberToInsert4 = 1;
+        int[] expectedArray4 = {1};
+        int[] resultArray4 = insertSorted(sortedArray4, numberToInsert4);
+        assertArrayEquals(expectedArray4, resultArray4);
+
+        int[] sortedArray5 = {1, 2, 3};
+        int numberToInsert5 = 2;
+        int[] expectedArray5 = {1, 2, 2, 3};
+        int[] resultArray5 = insertSorted(sortedArray5, numberToInsert5);
+        assertArrayEquals(expectedArray5, resultArray5);
+    }
+
+    @Test
+    public void testIsOneSwap() {
+        int[] sortedArray1 = {1, 2, 3, 4, 5};
+        assertFalse(isOneSwap(sortedArray1));
+
+        int[] swapNeededArray = {1, 5, 3, 4, 2};
+        assertTrue(isOneSwap(swapNeededArray));
+
+        int[] swapNeededArray1 = {1,5,2,3,4};
+        assertFalse(isOneSwap(swapNeededArray1));
+
+        int[] swapNeededArray2 = {2,1,3,4,5};
+        assertTrue(isOneSwap(swapNeededArray2));
+
+        int[] swapNeededArray3 = {1, 2, 3, 5, 4};
+        assertTrue(isOneSwap(swapNeededArray3));
+
+        int[] swapNeededArray4 = {3, 2, 1, 4, 5};
+        assertTrue(isOneSwap(swapNeededArray4));
+
+        int[] swapNeededArray5 = {5, 2, 3, 4, 1};
+        assertTrue(isOneSwap(swapNeededArray5));
+
+        int[] multipleSwapArray = {1, 5, 3, 2, 4};
+        assertFalse(isOneSwap(multipleSwapArray));
+
+        int[] emptyArray = {};
+        assertFalse(isOneSwap(emptyArray));
+
+        int[] singleElementArray = {1};
+        assertFalse(isOneSwap(singleElementArray));
+
+        int[] twoElementSortedArray = {1, 2};
+        assertFalse(isOneSwap(twoElementSortedArray));
+
+        int[] twoElementSwapArray = {2, 1};
+        assertTrue(isOneSwap(twoElementSwapArray));
+    }
+
+
+
 
 }

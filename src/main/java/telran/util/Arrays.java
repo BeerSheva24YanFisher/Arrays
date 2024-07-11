@@ -76,20 +76,88 @@ public class Arrays {
     public static int binarySearch(int[] arSorted, int key){
         int start = 0;
         int finish = arSorted.length-1;
-        int middle = (start+finish)/2;
-        while(start<=finish||arSorted[middle]!=key){ 
-        //TODO   
+        int middle = -1;
+        boolean foundFlag = false;
+        while(start<=finish){ 
+            middle = (start+finish)/2;
+            if (arSorted[middle]==key) {
+                foundFlag = true;
+                break;
+            } else if  (arSorted[middle]>key){
+                finish = middle-1;
+            } else {
+                start = middle+1;
+            }
         }
+        if (!foundFlag) {
+            middle = -1;
+        }
+
         return middle;
     }
 
+
     public static int [] insertSorted(int[] arSorted, int number){
-        //TODO 
-        return null;
+        int start = 0;
+        int finish = arSorted.length-1;
+        int middle;
+        while(start<=finish){ 
+            middle = (start+finish)/2;
+            if  (arSorted[middle]>number){
+                finish = middle-1;
+            } else start = middle+1;
+        }
+        return insert(arSorted, start, number);
     }
 
     public static boolean isOneSwap(int[] array){
-        //TODO 
-        return false;
+        boolean flag = true;
+        int firstNumber=-1;
+        int secondNumber=-1;
+        if (array.length<2) {
+            flag=false;
+        } 
+        if (flag) {
+            for (int i = 0; i < array.length-1; i++) {
+                if (array[i]>array[i+1]||i==array.length-2) {
+                    if (firstNumber==-1) {
+                        firstNumber=i;
+                        if (i==array.length-2){
+                        secondNumber = i+1;
+                        break;                 
+                        }       
+                    } else if (secondNumber==-1) {
+                        if (i==array.length-2 && array[i]>array[i+1]){
+                            secondNumber = i+1;
+                            break;                 
+                        } else if (i==array.length-2){
+                            secondNumber = firstNumber+1;
+                            break;
+                        } else if (array[i]>array[i+1]){
+                            secondNumber = i+1;
+                            break;
+                        }
+                    } else {
+                        flag = false;
+                        break;
+                    }       
+                }
+            }
+
+            if (firstNumber != -1 && secondNumber != -1) {
+                swap(array, firstNumber, secondNumber);
+                for (int i = 0; i < array.length-1; i++) {
+                    if (array[i]>array[i+1]) {
+                        flag = false;       
+                    }
+                }
+                swap(array, secondNumber, firstNumber);
+            } else {
+                flag =false;
+            }
+        }
+        
+
+        return flag;
     }
 }
