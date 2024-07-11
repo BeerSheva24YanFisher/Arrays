@@ -2,6 +2,7 @@ package telran.array;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import org.junit.jupiter.api.Test;
 
 import static telran.util.Arrays.add;
@@ -30,17 +31,29 @@ public class ArraysTest {
 
     @Test
     void insertTest(){
-        int newNumber = 1000;
-        int index = 2;
-        int[] expected = {10, 7,1000, 12, -4, 13, 3, 14};
-        assertArrayEquals(expected, insert(numbers, index, newNumber));
+    //{10, 7, 12, -4, 13, 3, 14} - all numbers
+    int newNumber = 30;
+    int[] expected_0 ={newNumber, 10, 7, 12, -4, 13, 3, 14};
+    int[] expected_3 = {10, 7, 12, newNumber, -4, 13, 3, 14};
+    int[] expected_last = {10, 7, 12,  -4, 13, 3, 14, newNumber};
+    assertArrayEquals(expected_0, insert(numbers, 0, newNumber));
+    assertArrayEquals(expected_3, insert(numbers, 3, newNumber));
+    assertArrayEquals(expected_last, insert(numbers, numbers.length, newNumber));
+    assertThrowsExactly(ArrayIndexOutOfBoundsException.class, ()->insert(numbers, numbers.length + 1, newNumber));
+    assertThrowsExactly(ArrayIndexOutOfBoundsException.class, ()->insert(numbers, -1, newNumber));
     }
 
     @Test
     void removeTest(){
-        int index = 5;
-        int[] expected = {10, 7, 12, -4, 13, 14};
-        assertArrayEquals(expected, remove(numbers, index));
+    //{10, 7, 12, -4, 13, 3, 14} - all numbers
+    int[] expected_0 ={ 7, 12, -4, 13, 3, 14};
+    int[] expected_3 = {10, 7, 12, 13, 3, 14};
+    int[] expected_last = {10, 7, 12, -4, 13, 3};
+    assertArrayEquals(expected_0, remove(numbers,0));
+    assertArrayEquals(expected_3, remove(numbers, 3));
+    assertArrayEquals(expected_last, remove(numbers, numbers.length-1));
+    assertThrowsExactly(ArrayIndexOutOfBoundsException.class, ()->remove(numbers, numbers.length));
+    assertThrowsExactly(ArrayIndexOutOfBoundsException.class, ()->remove(numbers, -1));
     }
 
 }
