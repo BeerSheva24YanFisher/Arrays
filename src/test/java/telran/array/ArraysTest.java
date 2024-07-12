@@ -102,7 +102,7 @@ public class ArraysTest {
         assertEquals(9, binarySearch(sortedArray, 10));
 
         assertEquals(-1, binarySearch(sortedArray, 0));
-        //assertEquals(-1, binarySearch(sortedArray, 11));     I don't now, why this method is not working...
+        assertEquals(-11, binarySearch(sortedArray, 11));     //I don't now, why this method is not working...
 
         assertEquals(-1, binarySearch(new int[]{}, 5));
 

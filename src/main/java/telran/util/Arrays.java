@@ -90,7 +90,7 @@ public class Arrays {
             }
         }
         if (!foundFlag) {
-            middle = -1;
+            middle = -(start+1);
         }
 
         return middle;
@@ -111,53 +111,32 @@ public class Arrays {
     }
 
     public static boolean isOneSwap(int[] array){
-        boolean flag = true;
-        int firstNumber=-1;
-        int secondNumber=-1;
-        if (array.length<2) {
-            flag=false;
-        } 
-        if (flag) {
-            for (int i = 0; i < array.length-1; i++) {
-                if (array[i]>array[i+1]||i==array.length-2) {
-                    if (firstNumber==-1) {
-                        firstNumber=i;
-                        if (i==array.length-2){
-                        secondNumber = i+1;
-                        break;                 
-                        }       
-                    } else if (secondNumber==-1) {
-                        if (i==array.length-2 && array[i]>array[i+1]){
-                            secondNumber = i+1;
-                            break;                 
-                        } else if (i==array.length-2){
-                            secondNumber = firstNumber+1;
-                            break;
-                        } else if (array[i]>array[i+1]){
-                            secondNumber = i+1;
-                            break;
-                        }
-                    } else {
-                        flag = false;
-                        break;
-                    }       
-                }
-            }
+        int a = 0;
+        int b = array.length-1;
 
-            if (firstNumber != -1 && secondNumber != -1) {
-                swap(array, firstNumber, secondNumber);
-                for (int i = 0; i < array.length-1; i++) {
-                    if (array[i]>array[i+1]) {
-                        flag = false;       
-                    }
-                }
-                swap(array, secondNumber, firstNumber);
-            } else {
-                flag =false;
-            }
+        while (a < array.length - 1 && array[a] < array[a + 1]) {
+            a++;
         }
-        
+    
+        while (b > 0 && array[b] > array[b - 1]) {
+            b--;
+        }
 
-        return flag;
+        if (a>=b){
+            return false;
+        }
+
+        swap(array, a, b);
+
+        for (int i = 0; i < array.length-1; i++) {
+            if (array[i+1]<array[i]) {
+                swap(array, a, b);
+                return false;
+            }            
+        }
+
+        swap(array, a, b);
+
+        return  true;
     }
 }
