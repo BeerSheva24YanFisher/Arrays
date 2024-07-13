@@ -98,16 +98,8 @@ public class Arrays {
 
 
     public static int [] insertSorted(int[] arSorted, int number){
-        int start = 0;
-        int finish = arSorted.length-1;
-        int middle;
-        while(start<=finish){ 
-            middle = (start+finish)/2;
-            if  (arSorted[middle]>number){
-                finish = middle-1;
-            } else start = middle+1;
-        }
-        return insert(arSorted, start, number);
+        int position = Math.abs(-(binarySearch(arSorted, number)+1));
+        return insert(arSorted, position, number);
     }
 
     public static boolean isOneSwap(int[] array){

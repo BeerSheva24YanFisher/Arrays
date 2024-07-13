@@ -1,7 +1,6 @@
 package telran.array;
 
 import java.util.Arrays;
-import static java.util.Arrays.binarySearch;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -12,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import static telran.util.Arrays.add;
+import static telran.util.Arrays.binarySearch;
 import static telran.util.Arrays.insert;
 import static telran.util.Arrays.insertSorted;
 import static telran.util.Arrays.isOneSwap;
@@ -96,13 +96,14 @@ public class ArraysTest {
 
     @Test
     public void binarySearchTest() {
-        int[] sortedArray = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        int[] sortedArray = {1, 2, 3, 4, 5, 7, 8, 9, 10, 11};
         assertEquals(0, binarySearch(sortedArray, 1));
         assertEquals(4, binarySearch(sortedArray, 5));
-        assertEquals(9, binarySearch(sortedArray, 10));
+        assertEquals(8, binarySearch(sortedArray, 10));
 
         assertEquals(-1, binarySearch(sortedArray, 0));
-        assertEquals(-11, binarySearch(sortedArray, 11));     //I don't now, why this method is not working...
+        assertEquals(-11, binarySearch(sortedArray, 12)); 
+        assertEquals(-6, binarySearch(sortedArray, 6)); 
 
         assertEquals(-1, binarySearch(new int[]{}, 5));
 
