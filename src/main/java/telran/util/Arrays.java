@@ -105,6 +105,7 @@ public class Arrays {
     public static boolean isOneSwap(int[] array){
         int a = 0;
         int b = array.length-1;
+        boolean flag = true;
 
         while (a < array.length - 1 && array[a] < array[a + 1]) {
             a++;
@@ -115,20 +116,23 @@ public class Arrays {
         }
 
         if (a>=b){
-            return false;
+            flag = false;
         }
 
-        swap(array, a, b);
+        if (flag) {
+            swap(array, a, b);
 
-        for (int i = 0; i < array.length-1; i++) {
-            if (array[i+1]<array[i]) {
-                swap(array, a, b);
-                return false;
-            }            
+            for (int i = 0; i < array.length-1; i++) {
+                if (array[i+1]<array[i]) {
+                    flag = false;
+                    break;
+                }            
+            }
+    
+            swap(array, a, b);
         }
 
-        swap(array, a, b);
 
-        return  true;
+        return  flag;
     }
 }
