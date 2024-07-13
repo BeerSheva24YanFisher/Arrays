@@ -112,11 +112,7 @@ public class Arrays {
             b--;
         }
 
-        if (a>=b){
-            flag = false;
-        }
-
-        if (flag) {
+        if (a<b) {
             swap(array, a, b);
 
             for (int i = 0; i < array.length-1; i++) {
@@ -129,7 +125,6 @@ public class Arrays {
             swap(array, a, b);
         }
 
-
-        return  flag;
+        return  flag && a < b;
     }
 }
