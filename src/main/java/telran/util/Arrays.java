@@ -89,11 +89,8 @@ public class Arrays {
                 start = middle+1;
             }
         }
-        if (!foundFlag) {
-            middle = -(start+1);
-        }
-
-        return middle;
+        
+        return foundFlag ? middle : -(start+1);
     }
 
 
