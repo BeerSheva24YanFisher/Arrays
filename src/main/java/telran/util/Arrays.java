@@ -1,5 +1,7 @@
 package telran.util;
 
+import java.util.Comparator;
+
 public class Arrays {
 
     public static int search(int[] ar, int key) {
@@ -134,5 +136,44 @@ public class Arrays {
             right--;
         }
         return right;
+    }
+
+    public static <T> void sort(T[] array, Comparator<T> comporator) {
+        int length = array.length;
+        boolean flSort;
+        do { 
+            length--;
+            flSort = true;
+            for (int i = 0; i < length; i++){
+                if (comporator.compare(array[i], array[i+1])>0) {
+                    swap(array, i, i+1);
+                    flSort = false;
+                }
+            }
+        } while (!flSort);
+        
+        
+    }
+
+    public static <T> void swap(T[] array, int i, int j) {
+        T tmp = array[i];
+        array[i] = array[j];
+        array[j] = tmp;
+    }
+
+    public static <T> int binarySearch(T[] arSorted, T key, Comparator<T> comporator) {
+        int start = 0;
+        int finish = arSorted.length-1;
+        int middle = (start+finish)/2;
+        while(start<=finish && comporator.compare(arSorted[middle], key)!=0){ 
+            if  (comporator.compare(arSorted[middle], key)>0){
+                finish = middle-1;
+            } else {
+                start = middle+1;
+            }
+            middle = (start+finish)/2;
+        }
+        
+        return start<=finish ? middle : -(start+1);
     }
 }

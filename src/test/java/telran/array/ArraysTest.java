@@ -193,12 +193,49 @@ public class ArraysTest {
 
 
     @Test
-    void binarySearchAnyTypeTest(){
+    void binarySortAnyTypeTest(){
         String [] strings = {"lmn","cfta", "w", "aa"};
-        
+        String [] expectedASCII = {"aa", "cfta", "lmn", "w"};
+        String [] expectedLength = {"w", "aa","lmn", "cfta"};
+        sort(strings, new ComparatorASCII());
+        assertArrayEquals(expectedASCII, strings);
+        sort(strings, new ComparatorLength());
+        assertArrayEquals(expectedLength, strings);
+
     }
 
+    @Test
+    public void testBinarySearchFound() {
+        Integer[] arrayInteger = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        int index = binarySearch(arrayInteger, 5, new ComparatorInteger());
+        assertEquals(4, index);
+        index = binarySearch(arrayInteger, 11, new ComparatorInteger());
+        assertEquals(-11, index);
+
+        String[] arrayString = {"apple", "banana", "cherry", "date", "fig", "grape"};
+        index = binarySearch(arrayString, "cherry", new ComparatorASCII());
+        assertEquals(2, index);
+        index = binarySearch(arrayString, "kiwi", new ComparatorASCII());
+        assertEquals(-7, index);
+
+        Double[] arrayDoubles = {1.5, 2.5, 3.5, 4.5, 10.4};
+        index = binarySearch(arrayDoubles, 1.5, new ComparatorDouble());
+        assertEquals(0, index);
+        index = binarySearch(arrayDoubles, 8.8, new ComparatorDouble());
+        assertEquals(-5, index);
+        
+        Character[] arrayCharapter = { 'a', 'b', 'c', 'd' };
+        index = binarySearch(arrayCharapter, 'b', new ComparatorCharapter());
+        assertEquals(1, index);
+
+        Integer[][] arrayArrayInteger = {{1,2},{1,3},{2,3}};
+        Integer[] key = {1, 5};
+        index = binarySearch(arrayArrayInteger, key, new ComparatorArraysInteger());
+        assertEquals(-3, index);
 
 
+
+
+    }
 
 }
