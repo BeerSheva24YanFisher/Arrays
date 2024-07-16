@@ -76,21 +76,17 @@ public class Arrays {
     public static int binarySearch(int[] arSorted, int key){
         int start = 0;
         int finish = arSorted.length-1;
-        int middle = -1;
-        boolean foundFlag = false;
-        while(start<=finish){ 
-            middle = (start+finish)/2;
-            if (arSorted[middle]==key) {
-                foundFlag = true;
-                break;
-            } else if  (arSorted[middle]>key){
+        int middle = (start+finish)/2;
+        while(start<=finish && arSorted[middle]!=key){ 
+            if  (arSorted[middle]>key){
                 finish = middle-1;
             } else {
                 start = middle+1;
             }
+            middle = (start+finish)/2;
         }
         
-        return foundFlag ? middle : -(start+1);
+        return start<=finish ? middle : -(start+1);
     }
 
 
@@ -100,15 +96,9 @@ public class Arrays {
     }
 
     public static boolean isOneSwap(int[] array){
-        boolean flag = true;
         int left = checkLeft(array);
         int right = checkRight(array, left);
-
-        if (left<right) {
-            isOneSwapCheck(array, left, right);
-        }
-        
-        return  flag && left < right;
+        return  left < right && isOneSwapCheck(array, left, right);
     }
 
     private static boolean isOneSwapCheck(int[] arr, int first, int second){

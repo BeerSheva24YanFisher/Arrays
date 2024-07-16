@@ -192,6 +192,13 @@ public class ArraysTest {
     }
 
 
+    @Test
+    void binarySearchAnyTypeTest(){
+        String [] strings = {"lmn","cfta", "w", "aa"};
+        
+    }
+
+
 
 
 }
