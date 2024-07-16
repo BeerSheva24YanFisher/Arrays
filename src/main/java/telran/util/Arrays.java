@@ -108,7 +108,7 @@ public class Arrays {
             a++;
         }
     
-        while (b > 0 && array[b] > array[b - 1]) {
+        while (b > 0 && array[b] > array[b - 1] && a < array.length - 1) {
             b--;
         }
 
