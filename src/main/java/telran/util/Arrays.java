@@ -114,14 +114,15 @@ public class Arrays {
 
         if (a<b) {
             swap(array, a, b);
-            flag = isSorted(array, flag);    
+            flag = isSorted(array);    
             swap(array, a, b);
         }
 
         return  flag && a < b;
     }
 
-    public static boolean isSorted(int[] arr, boolean flag) {
+    public static boolean isSorted(int[] arr) {
+        boolean flag = true;
         for (int i = 0; i < arr.length-1; i++) {
             if (arr[i+1]<arr[i]) {
                 flag = false;
