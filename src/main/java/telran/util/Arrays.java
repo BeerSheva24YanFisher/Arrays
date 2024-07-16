@@ -100,28 +100,26 @@ public class Arrays {
     }
 
     public static boolean isOneSwap(int[] array){
-        int a = 0;
-        int b = array.length-1;
         boolean flag = true;
+        int left = checkLeft(array);
+        int right = checkRight(array, left);
 
-        while (a < array.length - 1 && array[a] < array[a + 1]) {
-            a++;
+        if (left<right) {
+            isOneSwapCheck(array, left, right);
         }
-    
-        while (b > 0 && array[b] > array[b - 1] && a < array.length - 1) {
-            b--;
-        }
-
-        if (a<b) {
-            swap(array, a, b);
-            flag = isSorted(array);    
-            swap(array, a, b);
-        }
-
-        return  flag && a < b;
+        
+        return  flag && left < right;
     }
 
-    public static boolean isSorted(int[] arr) {
+    private static boolean isOneSwapCheck(int[] arr, int first, int second){
+        boolean flag;
+        swap(arr,first, second);
+        flag = isSorted(arr);    
+        swap(arr, first, second);
+        return flag;
+    }
+
+    private static boolean isSorted(int[] arr) {
         boolean flag = true;
         for (int i = 0; i < arr.length-1; i++) {
             if (arr[i+1]<arr[i]) {
@@ -130,5 +128,21 @@ public class Arrays {
             }            
         }
         return flag;     
+    }
+
+    private static int checkLeft(int[] array){
+        int left = 0;
+        while (left < array.length - 1 && array[left] < array[left + 1]) {
+            left++;
+        }
+        return left;
+    }
+
+    private static int checkRight(int[] array, int left){
+        int right = array.length-1;
+        while (right > 0 && array[right] > array[right - 1] && left < array.length - 1) {
+            right--;
+        }
+        return right;
     }
 }
