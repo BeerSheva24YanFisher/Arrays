@@ -114,17 +114,20 @@ public class Arrays {
 
         if (a<b) {
             swap(array, a, b);
-
-            for (int i = 0; i < array.length-1; i++) {
-                if (array[i+1]<array[i]) {
-                    flag = false;
-                    break;
-                }            
-            }
-    
+            flag = isSorted(array, flag);    
             swap(array, a, b);
         }
 
         return  flag && a < b;
+    }
+
+    public static boolean isSorted(int[] arr, boolean flag) {
+        for (int i = 0; i < arr.length-1; i++) {
+            if (arr[i+1]<arr[i]) {
+                flag = false;
+                break;
+            }            
+        }
+        return flag;     
     }
 }
