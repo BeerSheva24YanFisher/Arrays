@@ -180,20 +180,7 @@ public class Arrays {
     }
 
     public static <T extends Comparable<T>> int binarySearch(T[] array, T key) {
-        int start = 0;
-        int finish = array.length-1;
-        int middle = start + (finish - start)/2;
-        int compRes = 0;
-        while(start<=finish && (compRes=array[middle].compareTo(key))!=0){
-            if  (compRes>0){
-                finish = middle-1;
-            } else {
-                start = middle+1;
-            }
-            middle = start + (finish - start)/2;
-        }
-        
-        return start<=finish ? middle : -(start+1);
+        return binarySearch(array, key, Comparable::compareTo);
     }
 
     public static <T> T[] insert(T[] array, int index, T item) {
@@ -214,13 +201,7 @@ public class Arrays {
     }
 
     public static <T> T[] removeIf(T[] array, Predicate<T> predicate) {
-        T[] result = java.util.Arrays.copyOf(array,0);
-        for (T element : array) {
-            if (!predicate.test(element)) {
-                result = insert(result, result.length, element);
-            }
-        }
-        return result;
+        return find(array, predicate.negate());
     }
 
 
