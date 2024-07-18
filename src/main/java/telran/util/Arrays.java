@@ -78,14 +78,14 @@ public class Arrays {
     public static int binarySearch(int[] arSorted, int key){
         int start = 0;
         int finish = arSorted.length-1;
-        int middle = (start+finish)/2;
+        int middle = start + (finish - start)/2;
         while(start<=finish && arSorted[middle]!=key){ 
             if  (arSorted[middle]>key){
                 finish = middle-1;
             } else {
                 start = middle+1;
             }
-            middle = (start+finish)/2;
+            middle = start + (finish - start)/2;
         }
         
         return start<=finish ? middle : -(start+1);
@@ -164,14 +164,14 @@ public class Arrays {
     public static <T> int binarySearch(T[] arSorted, T key, Comparator<T> comporator) {
         int start = 0;
         int finish = arSorted.length-1;
-        int middle = (start+finish)/2;
+        int middle = start + (finish - start)/2;
         while(start<=finish && comporator.compare(arSorted[middle], key)!=0){ 
             if  (comporator.compare(arSorted[middle], key)>0){
                 finish = middle-1;
             } else {
                 start = middle+1;
             }
-            middle = (start+finish)/2;
+            middle = start + (finish - start)/2;
         }
         
         return start<=finish ? middle : -(start+1);

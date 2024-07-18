@@ -1,6 +1,7 @@
 package telran.array;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -213,24 +214,28 @@ public class ArraysTest {
         assertEquals(-11, index);
 
         String[] arrayString = {"apple", "banana", "cherry", "date", "fig", "grape"};
-        index = binarySearch(arrayString, "cherry", new ComparatorASCII());
+        Comparator<String> comparatorASCII = new ComparatorASCII();
+        index = binarySearch(arrayString, "cherry", comparatorASCII);
         assertEquals(2, index);
-        index = binarySearch(arrayString, "kiwi", new ComparatorASCII());
+        index = binarySearch(arrayString, "kiwi", comparatorASCII);
         assertEquals(-7, index);
 
         Double[] arrayDoubles = {1.5, 2.5, 3.5, 4.5, 10.4};
-        index = binarySearch(arrayDoubles, 1.5, new ComparatorDouble());
+        Comparator<Double> comparatorDouble = new ComparatorDouble();
+        index = binarySearch(arrayDoubles, 1.5, comparatorDouble);
         assertEquals(0, index);
-        index = binarySearch(arrayDoubles, 8.8, new ComparatorDouble());
+        index = binarySearch(arrayDoubles, 8.8, comparatorDouble);
         assertEquals(-5, index);
         
+        Comparator<Character> comparatorCharacter = new ComparatorCharacter();
         Character[] arrayCharapter = { 'a', 'b', 'c', 'd' };
-        index = binarySearch(arrayCharapter, 'b', new ComparatorCharapter());
+        index = binarySearch(arrayCharapter, 'b', comparatorCharacter);
         assertEquals(1, index);
 
         Integer[][] arrayArrayInteger = {{1,2},{1,3},{2,3}};
         Integer[] key = {1, 5};
-        index = binarySearch(arrayArrayInteger, key, new ComparatorArraysInteger());
+        Comparator<Integer[]> comparatorArraysInteger = new ComparatorArraysInteger();
+        index = binarySearch(arrayArrayInteger, key, comparatorArraysInteger);
         assertEquals(-3, index);
 
 

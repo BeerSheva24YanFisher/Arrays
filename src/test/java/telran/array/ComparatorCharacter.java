@@ -8,7 +8,7 @@ package telran.array;
 import java.util.Comparator;
 
 
-public class ComparatorCharapter implements Comparator<Character>{
+public class ComparatorCharacter implements Comparator<Character>{
 
     @Override
     public int compare(Character o1, Character o2) {
