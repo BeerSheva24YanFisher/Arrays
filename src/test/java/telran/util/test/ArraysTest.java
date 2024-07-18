@@ -1,4 +1,4 @@
-package telran.array;
+package telran.util.test;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -13,10 +13,12 @@ import org.junit.jupiter.api.Test;
 
 import static telran.util.Arrays.add;
 import static telran.util.Arrays.binarySearch;
+import static telran.util.Arrays.find;
 import static telran.util.Arrays.insert;
 import static telran.util.Arrays.insertSorted;
 import static telran.util.Arrays.isOneSwap;
 import static telran.util.Arrays.remove;
+import static telran.util.Arrays.removeIf;
 import static telran.util.Arrays.search;
 import static telran.util.Arrays.sort;
 
@@ -229,10 +231,40 @@ public class ArraysTest {
         Integer[] key = {1, 5};
         Comparator<Integer[]> comparatorArraysInteger = new ComparatorArraysInteger();
         assertEquals(-3, binarySearch(arrayArrayInteger, key, comparatorArraysInteger));
+    }
 
+    @Test
+    void binarySearchNoComporatorTest(){
+        String [] strings = {"aa", "cfta", "lmn", "w"};
+        Person prs1 = new Person(10, "Vasya");
+        Person prs2 = new Person(20, "Itay");
+        Person prs3 = new Person(30, "Sara");
+        Person [] persons = {prs1, prs2, prs3};
+        assertEquals(1, binarySearch(strings, "cfta"));
+        assertEquals(0, binarySearch(persons, prs1));
+        assertEquals(-1, binarySearch(persons,new Person(5, "Serg")));     
+    }
 
+    @Test
+    void evenOddSorting(){
+        Integer [] array = {7, -8, 10, -100, 13, -10, 99};
+        Integer [] expected = {-100, -10, -8, 10, 99, 13, 7};
+        sort(array, new EvenOddComparator());
+        assertArrayEquals(expected, array);
+    }
 
+    @Test
+    void findTest(){
+        Integer [] array = {7, -8, 10, -100, 13, -10, 99};
+        Integer [] expected = {7, 13, 99};
+        assertArrayEquals(expected, find(array, new OddNumbersPredicate()));
+    }
 
+    @Test
+    void removeIfTest(){
+        Integer [] array = {7, -8, 10, -100, 13, -10, 99};
+        Integer [] expected = {-8, 10, -100, -10};
+        assertArrayEquals(expected, removeIf(array, new OddNumbersPredicate()));
     }
 
 }

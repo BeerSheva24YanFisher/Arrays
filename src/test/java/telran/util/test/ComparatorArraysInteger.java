@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package telran.array;
+package telran.util.test;
 
 import java.util.Comparator;
 import java.util.Objects;

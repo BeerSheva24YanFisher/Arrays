@@ -1,6 +1,7 @@
 package telran.util;
 
 import java.util.Comparator;
+import java.util.function.Predicate;
 
 public class Arrays {
 
@@ -177,4 +178,56 @@ public class Arrays {
         
         return start<=finish ? middle : -(start+1);
     }
+
+    public static <T extends Comparable<T>> int binarySearch(T[] array, T key) {
+        int start = 0;
+        int finish = array.length-1;
+        int middle = start + (finish - start)/2;
+        int compRes = 0;
+        while(start<=finish && (compRes=array[middle].compareTo(key))!=0){
+            if  (compRes>0){
+                finish = middle-1;
+            } else {
+                start = middle+1;
+            }
+            middle = start + (finish - start)/2;
+        }
+        
+        return start<=finish ? middle : -(start+1);
+    }
+
+    public static <T> T[] insert(T[] array, int index, T item) {
+        T [] res = java.util.Arrays.copyOf(array, array.length+1);
+        System.arraycopy(array, index, res, index + 1, array.length - index);
+        res[index] = item;
+        return res;
+    }
+
+    public static <T> T[] find(T[]array, Predicate<T> predicate){
+        T[] result = java.util.Arrays.copyOf(array,0);
+        for (T array1 : array) {
+            if (predicate.test(array1)) {
+                result = insert(result, result.length, array1);
+            }            
+        }
+        return result;
+    }
+
+    public static <T> T[] removeIf(T[] array, Predicate<T> predicate) {
+        T[] result = java.util.Arrays.copyOf(array,0);
+        for (T element : array) {
+            if (!predicate.test(element)) {
+                result = insert(result, result.length, element);
+            }
+        }
+        return result;
+    }
+
+
+
+
+
+    
+
+
 }
