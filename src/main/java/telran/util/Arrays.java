@@ -165,8 +165,9 @@ public class Arrays {
         int start = 0;
         int finish = arSorted.length-1;
         int middle = start + (finish - start)/2;
-        while(start<=finish && comporator.compare(arSorted[middle], key)!=0){ 
-            if  (comporator.compare(arSorted[middle], key)>0){
+        int compRes = 0;
+        while(start<=finish && (compRes = comporator.compare(arSorted[middle], key))!=0){ 
+            if  (compRes>0){
                 finish = middle-1;
             } else {
                 start = middle+1;

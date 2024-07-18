@@ -208,35 +208,27 @@ public class ArraysTest {
     @Test
     public void testBinarySearchFound() {
         Integer[] arrayInteger = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        int index = binarySearch(arrayInteger, 5, new ComparatorInteger());
-        assertEquals(4, index);
-        index = binarySearch(arrayInteger, 11, new ComparatorInteger());
-        assertEquals(-11, index);
+        assertEquals(4, binarySearch(arrayInteger, 5, new ComparatorInteger()));
+        assertEquals(-11, binarySearch(arrayInteger, 11, new ComparatorInteger()));
 
         String[] arrayString = {"apple", "banana", "cherry", "date", "fig", "grape"};
         Comparator<String> comparatorASCII = new ComparatorASCII();
-        index = binarySearch(arrayString, "cherry", comparatorASCII);
-        assertEquals(2, index);
-        index = binarySearch(arrayString, "kiwi", comparatorASCII);
-        assertEquals(-7, index);
+        assertEquals(2, binarySearch(arrayString, "cherry", comparatorASCII));
+        assertEquals(-7, binarySearch(arrayString, "kiwi", comparatorASCII));
 
         Double[] arrayDoubles = {1.5, 2.5, 3.5, 4.5, 10.4};
         Comparator<Double> comparatorDouble = new ComparatorDouble();
-        index = binarySearch(arrayDoubles, 1.5, comparatorDouble);
-        assertEquals(0, index);
-        index = binarySearch(arrayDoubles, 8.8, comparatorDouble);
-        assertEquals(-5, index);
+        assertEquals(0, binarySearch(arrayDoubles, 1.5, comparatorDouble));
+        assertEquals(-5, binarySearch(arrayDoubles, 8.8, comparatorDouble));
         
         Comparator<Character> comparatorCharacter = new ComparatorCharacter();
         Character[] arrayCharapter = { 'a', 'b', 'c', 'd' };
-        index = binarySearch(arrayCharapter, 'b', comparatorCharacter);
-        assertEquals(1, index);
+        assertEquals(1, binarySearch(arrayCharapter, 'b', comparatorCharacter));
 
         Integer[][] arrayArrayInteger = {{1,2},{1,3},{2,3}};
         Integer[] key = {1, 5};
         Comparator<Integer[]> comparatorArraysInteger = new ComparatorArraysInteger();
-        index = binarySearch(arrayArrayInteger, key, comparatorArraysInteger);
-        assertEquals(-3, index);
+        assertEquals(-3, binarySearch(arrayArrayInteger, key, comparatorArraysInteger));
 
 
 
