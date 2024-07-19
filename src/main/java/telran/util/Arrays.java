@@ -179,8 +179,8 @@ public class Arrays {
         return start<=finish ? middle : -(start+1);
     }
 
-    public static <T extends Comparable<T>> int binarySearch(T[] array, T key) {
-        return binarySearch(array, key, Comparable::compareTo);
+    public static <T> int binarySearch(T[] array, T key) {
+        return binarySearch(array, key, (a,b)->((Comparable<T>) a).compareTo(b));
     }
 
     public static <T> T[] insert(T[] array, int index, T item) {
