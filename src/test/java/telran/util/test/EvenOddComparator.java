@@ -13,7 +13,7 @@ public class EvenOddComparator  implements Comparator<Integer>{
         int res;
     
         if (o1Even == o2Even) {
-            if (o1Even && o2Even) {
+            if (o1Even) {
                 res = o1.compareTo(o2);
             } else {
                 res = o2.compareTo(o1);
