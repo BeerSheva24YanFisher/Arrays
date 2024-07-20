@@ -55,7 +55,7 @@ public class Arrays {
         for (int i = 0; i < length; i++) {
             if (ar[i] > ar[i + 1]) {
                 res = true;
-                swap(ar, i, i+1);
+                swap(ar, i, i + 1);
             }
         }
         return res;
@@ -76,54 +76,53 @@ public class Arrays {
         }
     }
 
-    public static int binarySearch(int[] arSorted, int key){
+    public static int binarySearch(int[] arSorted, int key) {
         int start = 0;
-        int finish = arSorted.length-1;
-        int middle = start + (finish - start)/2;
-        while(start<=finish && arSorted[middle]!=key){ 
-            if  (arSorted[middle]>key){
-                finish = middle-1;
+        int finish = arSorted.length - 1;
+        int middle = start + (finish - start) / 2;
+        while (start <= finish && arSorted[middle] != key) {
+            if (arSorted[middle] > key) {
+                finish = middle - 1;
             } else {
-                start = middle+1;
+                start = middle + 1;
             }
-            middle = start + (finish - start)/2;
+            middle = start + (finish - start) / 2;
         }
-        
-        return start<=finish ? middle : -(start+1);
+
+        return start <= finish ? middle : -(start + 1);
     }
 
-
-    public static int [] insertSorted(int[] arSorted, int number){
-        int position = Math.abs(-(binarySearch(arSorted, number)+1));
+    public static int[] insertSorted(int[] arSorted, int number) {
+        int position = Math.abs(-(binarySearch(arSorted, number) + 1));
         return insert(arSorted, position, number);
     }
 
-    public static boolean isOneSwap(int[] array){
+    public static boolean isOneSwap(int[] array) {
         int left = checkLeft(array);
         int right = checkRight(array, left);
-        return  left < right && isOneSwapCheck(array, left, right);
+        return left < right && isOneSwapCheck(array, left, right);
     }
 
-    private static boolean isOneSwapCheck(int[] arr, int first, int second){
+    private static boolean isOneSwapCheck(int[] arr, int first, int second) {
         boolean flag;
-        swap(arr,first, second);
-        flag = isSorted(arr);    
+        swap(arr, first, second);
+        flag = isSorted(arr);
         swap(arr, first, second);
         return flag;
     }
 
     private static boolean isSorted(int[] arr) {
         boolean flag = true;
-        for (int i = 0; i < arr.length-1; i++) {
-            if (arr[i+1]<arr[i]) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            if (arr[i + 1] < arr[i]) {
                 flag = false;
                 break;
-            }            
+            }
         }
-        return flag;     
+        return flag;
     }
 
-    private static int checkLeft(int[] array){
+    private static int checkLeft(int[] array) {
         int left = 0;
         while (left < array.length - 1 && array[left] < array[left + 1]) {
             left++;
@@ -131,8 +130,8 @@ public class Arrays {
         return left;
     }
 
-    private static int checkRight(int[] array, int left){
-        int right = array.length-1;
+    private static int checkRight(int[] array, int left) {
+        int right = array.length - 1;
         while (right > 0 && array[right] > array[right - 1] && left < array.length - 1) {
             right--;
         }
@@ -142,18 +141,17 @@ public class Arrays {
     public static <T> void sort(T[] array, Comparator<T> comporator) {
         int length = array.length;
         boolean flSort;
-        do { 
+        do {
             length--;
             flSort = true;
-            for (int i = 0; i < length; i++){
-                if (comporator.compare(array[i], array[i+1])>0) {
-                    swap(array, i, i+1);
+            for (int i = 0; i < length; i++) {
+                if (comporator.compare(array[i], array[i + 1]) > 0) {
+                    swap(array, i, i + 1);
                     flSort = false;
                 }
             }
         } while (!flSort);
-        
-        
+
     }
 
     public static <T> void swap(T[] array, int i, int j) {
@@ -164,38 +162,40 @@ public class Arrays {
 
     public static <T> int binarySearch(T[] arSorted, T key, Comparator<T> comporator) {
         int start = 0;
-        int finish = arSorted.length-1;
-        int middle = start + (finish - start)/2;
+        int finish = arSorted.length - 1;
+        int middle = start + (finish - start) / 2;
         int compRes = 0;
-        while(start<=finish && (compRes = comporator.compare(arSorted[middle], key))!=0){ 
-            if  (compRes>0){
-                finish = middle-1;
+        while (start <= finish && (compRes = comporator.compare(arSorted[middle], key)) != 0) {
+            if (compRes > 0) {
+                finish = middle - 1;
             } else {
-                start = middle+1;
+                start = middle + 1;
             }
-            middle = start + (finish - start)/2;
+            middle = start + (finish - start) / 2;
         }
-        
-        return start<=finish ? middle : -(start+1);
+
+        return start <= finish ? middle : -(start + 1);
     }
 
     public static <T> int binarySearch(T[] array, T key) {
-        return binarySearch(array, key, (a,b)->((Comparable<T>) a).compareTo(b));
+        return binarySearch(array, key, (a, b) -> ((Comparable<T>) a).compareTo(b));
+        //return binarySearch(array, key, (a,b)->a.toString().compareTo(b.toString()));
+
     }
 
     public static <T> T[] insert(T[] array, int index, T item) {
-        T [] res = java.util.Arrays.copyOf(array, array.length+1);
+        T[] res = java.util.Arrays.copyOf(array, array.length + 1);
         System.arraycopy(array, index, res, index + 1, array.length - index);
         res[index] = item;
         return res;
     }
 
-    public static <T> T[] find(T[]array, Predicate<T> predicate){
-        T[] result = java.util.Arrays.copyOf(array,0);
+    public static <T> T[] find(T[] array, Predicate<T> predicate) {
+        T[] result = java.util.Arrays.copyOf(array, 0);
         for (T array1 : array) {
             if (predicate.test(array1)) {
                 result = insert(result, result.length, array1);
-            }            
+            }
         }
         return result;
     }
@@ -203,12 +203,5 @@ public class Arrays {
     public static <T> T[] removeIf(T[] array, Predicate<T> predicate) {
         return find(array, predicate.negate());
     }
-
-
-
-
-
-    
-
 
 }
