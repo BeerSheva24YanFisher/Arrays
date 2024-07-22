@@ -179,7 +179,7 @@ public class Arrays {
 
     public static <T> int binarySearch(T[] array, T key) {
         //return binarySearch(array, key, (a, b) -> ((Comparable<T>) a).compareTo(b));
-        return binarySearch(array, key, (Comparator<T>) Comparator.naturalOrder());
+        return binarySearch(array, key, Comparator.comparing(x -> (Comparable) x));
 
     }
 
