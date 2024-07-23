@@ -17,10 +17,12 @@ import static telran.util.Arrays.find;
 import static telran.util.Arrays.insert;
 import static telran.util.Arrays.insertSorted;
 import static telran.util.Arrays.isOneSwap;
+import static telran.util.Arrays.matchesRules;
 import static telran.util.Arrays.remove;
 import static telran.util.Arrays.removeIf;
 import static telran.util.Arrays.search;
 import static telran.util.Arrays.sort;
+import telran.util.CharacterRule;
 
 
 
@@ -200,9 +202,9 @@ public class ArraysTest {
         String [] strings = {"lmn","cfta", "w", "aa"};
         String [] expectedASCII = {"aa", "cfta", "lmn", "w"};
         String [] expectedLength = {"w", "aa","lmn", "cfta"};
-        sort(strings, new ComparatorASCII());
+        sort(strings, String::compareTo);
         assertArrayEquals(expectedASCII, strings);
-        sort(strings, new ComparatorLength());
+        sort(strings, (a,b)->Integer.compare(a.length(), b.length()));
         assertArrayEquals(expectedLength, strings);
 
     }
@@ -210,20 +212,20 @@ public class ArraysTest {
     @Test
     public void testBinarySearchFound() {
         Integer[] arrayInteger = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        assertEquals(4, binarySearch(arrayInteger, 5, new ComparatorInteger()));
-        assertEquals(-11, binarySearch(arrayInteger, 11, new ComparatorInteger()));
+        assertEquals(4, binarySearch(arrayInteger, 5, Integer::compare));
+        assertEquals(-11, binarySearch(arrayInteger, 11, Integer::compare));
 
         String[] arrayString = {"apple", "banana", "cherry", "date", "fig", "grape"};
-        Comparator<String> comparatorASCII = new ComparatorASCII();
+        Comparator<String> comparatorASCII = String::compareTo;
         assertEquals(2, binarySearch(arrayString, "cherry", comparatorASCII));
         assertEquals(-7, binarySearch(arrayString, "kiwi", comparatorASCII));
 
         Double[] arrayDoubles = {1.5, 2.5, 3.5, 4.5, 10.4};
-        Comparator<Double> comparatorDouble = new ComparatorDouble();
+        Comparator<Double> comparatorDouble = Double::compare;
         assertEquals(0, binarySearch(arrayDoubles, 1.5, comparatorDouble));
         assertEquals(-5, binarySearch(arrayDoubles, 8.8, comparatorDouble));
         
-        Comparator<Character> comparatorCharacter = new ComparatorCharacter();
+        Comparator<Character> comparatorCharacter = Character::compare;
         Character[] arrayCharapter = { 'a', 'b', 'c', 'd' };
         assertEquals(1, binarySearch(arrayCharapter, 'b', comparatorCharacter));
 
@@ -249,7 +251,12 @@ public class ArraysTest {
     void evenOddSorting(){
         Integer [] array = {7, -8, 10, -100, 13, -10, 99};
         Integer [] expected = {-100, -10, -8, 10, 99, 13, 7};
-        sort(array, new EvenOddComparator());
+        sort(array, (a,b)->{boolean isArg0Even = a % 2 == 0;
+            boolean isArg1Even = b % 2 == 0;
+            boolean noSwapFlag = (isArg0Even && !isArg1Even) ||
+            (isArg0Even && isArg1Even && a <= b) ||
+             (!isArg0Even && !isArg1Even && a >= b);
+            return noSwapFlag ? -1 : 1;});
         assertArrayEquals(expected, array);
     }
 
@@ -257,14 +264,31 @@ public class ArraysTest {
     void findTest(){
         Integer [] array = {7, -8, 10, -100, 13, -10, 99};
         Integer [] expected = {7, 13, 99};
-        assertArrayEquals(expected, find(array, new OddNumbersPredicate()));
+        assertArrayEquals(expected, find(array, n->n%2!=0));
     }
 
     @Test
     void removeIfTest(){
         Integer [] array = {7, -8, 10, -100, 13, -10, 99};
         Integer [] expected = {-8, 10, -100, -10};
-        assertArrayEquals(expected, removeIf(array, new OddNumbersPredicate()));
+        assertArrayEquals(expected, removeIf(array, n->n%2!=0));
+    }
+
+    @Test
+    public void matchesRulesTest() {
+        CharacterRule mustBeUppercase = new CharacterRule(true, Character::isUpperCase, "Character must be uppercase");
+        CharacterRule mustNotBeDigit = new CharacterRule(false, Character::isDigit, "Character must not be a digit");
+
+        char[] chars = {'A', 'B', 'C'};
+        char[] chars1 = {'a', 'B', '3'};
+
+        CharacterRule[] mustBeRules = {mustBeUppercase};
+        CharacterRule[] mustNotBeRules = {mustNotBeDigit};
+
+        String result = matchesRules(chars, mustBeRules, mustNotBeRules);
+        assertEquals("", result);
+        result = matchesRules(chars1, mustBeRules, mustNotBeRules);
+        assertEquals("Character must be uppercase!!Character must be uppercase!!Character must not be a digit!!", result);
     }
 
 }

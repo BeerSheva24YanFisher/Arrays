@@ -177,6 +177,7 @@ public class Arrays {
         return start <= finish ? middle : -(start + 1);
     }
 
+    @SuppressWarnings("rawtypes")
     public static <T> int binarySearch(T[] array, T key) {
         //return binarySearch(array, key, (a, b) -> ((Comparable<T>) a).compareTo(b));
         //return binarySearch(array, key, (Comparator<T>)Comparator.naturalOrder());
@@ -203,6 +204,30 @@ public class Arrays {
 
     public static <T> T[] removeIf(T[] array, Predicate<T> predicate) {
         return find(array, predicate.negate());
+    }
+
+    public static String matchesRules(char[] chars, CharacterRule[] mustBeRules, CharacterRule[] mustNotBeRules) {
+        String errorMessage = checkRules(chars, mustBeRules)+checkRules(chars, mustNotBeRules);
+        return errorMessage.length() > 0 ? errorMessage : "";
+    }
+
+    private static String checkRules(char[] chars, CharacterRule[] rules) {
+        String errorMessage = "";
+        int j = 0;
+        while (j < rules.length) {
+            CharacterRule rule = rules[j];
+            int i = 0;
+            while (i < chars.length) {
+                char c = chars[i];
+                if (rule.isFlag() != rule.getPredicate().test(c)) {
+
+                    errorMessage += rule.getErrorMessage() + "!!";
+                }
+                i++;
+            }
+            j++;
+        }
+        return errorMessage;
     }
 
 }
