@@ -207,27 +207,34 @@ public class Arrays {
     }
 
     public static String matchesRules(char[] chars, CharacterRule[] mustBeRules, CharacterRule[] mustNotBeRules) {
-        String errorMessage = checkRules(chars, mustBeRules)+checkRules(chars, mustNotBeRules);
-        return errorMessage.length() > 0 ? errorMessage : "";
+        StringBuilder errorMessage = new StringBuilder();
+        checkRules(errorMessage, chars, mustBeRules);
+        checkRules(errorMessage, chars, mustNotBeRules);
+        return errorMessage.length() > 0 ? errorMessage.toString() : "";
     }
 
-    private static String checkRules(char[] chars, CharacterRule[] rules) {
-        String errorMessage = "";
-        int j = 0;
-        while (j < rules.length) {
-            CharacterRule rule = rules[j];
+    private static void checkRules(StringBuilder errorMessage, char[] chars, CharacterRule[] rules) {
+        for (CharacterRule rule : rules) {
+            Predicate<Character> predicate = rule.getPredicate();
+            String errorMsg = rule.getErrorMessage() + "!";
+            boolean ruleSatisfied = false;
+            boolean ruleViolated = false;
+    
             int i = 0;
-            while (i < chars.length) {
+            while (i < chars.length && !ruleSatisfied && !ruleViolated) {
                 char c = chars[i];
-                if (rule.isFlag() != rule.getPredicate().test(c)) {
+                boolean conditionMet = predicate.test(c);
+    
+                ruleSatisfied = rule.isFlag() ? (ruleSatisfied || conditionMet) : ruleSatisfied;
+                ruleViolated = !rule.isFlag() ? (ruleViolated || conditionMet) : ruleViolated;
 
-                    errorMessage += rule.getErrorMessage() + "!!";
-                }
                 i++;
             }
-            j++;
+            
+            if (rule.isFlag() ? !ruleSatisfied : ruleViolated) {
+                errorMessage.append(errorMsg);
+            }
         }
-        return errorMessage;
     }
 
 }

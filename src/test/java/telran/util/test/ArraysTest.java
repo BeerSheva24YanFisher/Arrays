@@ -275,20 +275,26 @@ public class ArraysTest {
     }
 
     @Test
-    public void matchesRulesTest() {
-        CharacterRule mustBeUppercase = new CharacterRule(true, Character::isUpperCase, "Character must be uppercase");
-        CharacterRule mustNotBeDigit = new CharacterRule(false, Character::isDigit, "Character must not be a digit");
+    void matchesRulesTest() {
+        CharacterRule[] mustBeRules = {
+            new CharacterRule(true, Character::isUpperCase, "No capital"),
+            new CharacterRule(true, Character::isLowerCase, "No lowercase"),
+            new CharacterRule(true, Character::isDigit, "No digit"),
+            new CharacterRule(true, c -> c == '.', "No dot")
+        };
 
-        char[] chars = {'A', 'B', 'C'};
-        char[] chars1 = {'a', 'B', '3'};
+        CharacterRule[] mustNotBeRules = {
+            new CharacterRule(false, Character::isWhitespace, "Space disallowed")
+        };
 
-        CharacterRule[] mustBeRules = {mustBeUppercase};
-        CharacterRule[] mustNotBeRules = {mustNotBeDigit};
 
-        String result = matchesRules(chars, mustBeRules, mustNotBeRules);
-        assertEquals("", result);
-        result = matchesRules(chars1, mustBeRules, mustNotBeRules);
-        assertEquals("Character must be uppercase!!Character must be uppercase!!Character must not be a digit!!", result);
+        // Test cases
+        assertEquals("", matchesRules(new char[] {'a', 'n', '*', 'G', '.', '.', '1'}, mustBeRules, mustNotBeRules));
+        assertEquals("No capital!Space disallowed!", matchesRules(new char[] {'a', 'n', '*', '.', '.', '1', ' '}, mustBeRules, mustNotBeRules));
+        assertEquals("No capital!", matchesRules(new char[] {'a', 'n', '*', '.', '.', '1'}, mustBeRules, mustNotBeRules));
+        assertEquals("No digit!", matchesRules(new char[] {'a', 'n', '*', 'G', '.', '.'}, mustBeRules, mustNotBeRules));
+        assertEquals("No capital!No lowercase!No digit!No dot!Space disallowed!", matchesRules(new char[] {' '}, mustBeRules, mustNotBeRules));
+        assertEquals("No capital!No lowercase!No digit!No dot!", matchesRules(new char[] {}, mustBeRules, mustNotBeRules));
     }
 
 }
