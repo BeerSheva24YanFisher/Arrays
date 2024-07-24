@@ -208,33 +208,29 @@ public class Arrays {
 
     public static String matchesRules(char[] chars, CharacterRule[] mustBeRules, CharacterRule[] mustNotBeRules) {
         StringBuilder errorMessage = new StringBuilder();
-        checkRules(errorMessage, chars, mustBeRules);
-        checkRules(errorMessage, chars, mustNotBeRules);
+        appendErrorMessages(errorMessage, chars, mustBeRules);
+        appendErrorMessages(errorMessage, chars, mustNotBeRules);
         return errorMessage.length() > 0 ? errorMessage.toString() : "";
     }
-
-    private static void checkRules(StringBuilder errorMessage, char[] chars, CharacterRule[] rules) {
+    
+    private static void appendErrorMessages(StringBuilder errorMessage, char[] chars, CharacterRule[] rules) {
         for (CharacterRule rule : rules) {
-            Predicate<Character> predicate = rule.getPredicate();
-            String errorMsg = rule.getErrorMessage() + "!";
-            boolean ruleSatisfied = false;
-            boolean ruleViolated = false;
-    
-            int i = 0;
-            while (i < chars.length && !ruleSatisfied && !ruleViolated) {
-                char c = chars[i];
-                boolean conditionMet = predicate.test(c);
-    
-                ruleSatisfied = rule.isFlag() ? (ruleSatisfied || conditionMet) : ruleSatisfied;
-                ruleViolated = !rule.isFlag() ? (ruleViolated || conditionMet) : ruleViolated;
-
-                i++;
-            }
-            
-            if (rule.isFlag() ? !ruleSatisfied : ruleViolated) {
-                errorMessage.append(errorMsg);
+            if (matchesOneRule(chars, rule)) {
+                errorMessage.append(rule.getErrorMessage()).append("!");
             }
         }
+    }
+    
+    private static boolean matchesOneRule(char[] chars, CharacterRule rule) {
+        boolean conditionMet = false;
+        int i = 0;
+        while (i < chars.length && !conditionMet) {
+            if (rule.getPredicate().test(chars[i])) {
+                conditionMet = true;
+            }
+            i++;
+        }
+        return rule.isFlag() != conditionMet;
     }
 
 }
