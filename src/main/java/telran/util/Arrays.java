@@ -216,21 +216,18 @@ public class Arrays {
     private static void appendErrorMessages(StringBuilder errorMessage, char[] chars, CharacterRule[] rules) {
         for (CharacterRule rule : rules) {
             if (matchesOneRule(chars, rule)) {
-                errorMessage.append(rule.getErrorMessage()).append("!");
+                errorMessage.append(rule.errorMessage).append("!");
             }
         }
     }
     
     private static boolean matchesOneRule(char[] chars, CharacterRule rule) {
-        boolean conditionMet = false;
-        int i = 0;
-        while (i < chars.length && !conditionMet) {
-            if (rule.getPredicate().test(chars[i])) {
-                conditionMet = true;
-            }
-            i++;
-        }
-        return rule.isFlag() != conditionMet;
+    boolean conditionMet = false;
+    int i = 0;
+    while (i < chars.length && !(conditionMet = rule.predicate.test(chars[i]))) {
+        i++;
     }
+    return rule.flag != conditionMet;
+}
 
 }

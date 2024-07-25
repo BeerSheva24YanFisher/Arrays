@@ -12,17 +12,5 @@ public class CharacterRule {
         this.predicate = predicate;
         this.errorMessage = errorMessage;
     }
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public Predicate<Character> getPredicate() {
-        return predicate;
-    }
-
-    public boolean isFlag() {
-        return flag;
-    }
     
 }
